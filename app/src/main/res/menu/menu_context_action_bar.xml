@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/edit_action_bar"
+        android:icon="@drawable/ic_baseline_edit_24"
+        android:title="@string/edit_movies_label"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/delete_action_bar"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="Delete Movie\"
+        app:showAsAction="always" />
+</menu>
