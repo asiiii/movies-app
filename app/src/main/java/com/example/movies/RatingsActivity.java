@@ -14,11 +14,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RatingBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -125,6 +128,7 @@ public class RatingsActivity extends AppCompatActivity {
             receivedMovieList = new ArrayList<>();
             try {
                 //calls method to get details for the SearchTitle API
+                setContentView(R.layout.progress_bar);
                 getMovieTitle(selectedMovie);
             } catch (InterruptedException e) {
                 e.printStackTrace();

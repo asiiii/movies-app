@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -33,6 +34,7 @@ public class EditActivity extends AppCompatActivity {
     ListView movieListView;
     private ActionMode actionMode;
     int itemPosition;
+    String movieTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,21 +128,62 @@ public class EditActivity extends AppCompatActivity {
     }
 
     private void openDeleteMovie(){
-        database = movies.getReadableDatabase();
-        String movieTitle = (String) movieListView.getItemAtPosition(itemPosition);
+        movieTitle = (String) movieListView.getItemAtPosition(itemPosition);
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Confirm deletion")
                 .setMessage("Are you sure you want to delete " + movieTitle +"?")
-                .setPositiveButton("Yes", null)
-                .setNegativeButton("No", null)
+                .setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener)
                 .create();
         dialog.show();
-        Cursor cursor = database.query(TABLE_NAME, FROM, TITLE + " = ?", new String[]{movieTitle}, null, null, ORDER_BY);
-
     }
 
-    private void confirmationDialog(){
-
-
+    private void deletionDialog(){
+        AlertDialog dialog = new AlertDialog.Builder(EditActivity.this)
+                .setTitle("Deletion Successful!")
+                .setMessage("You have deleted " + movieTitle +"from your movie list")
+                .setPositiveButton("Return to Home page", dialogClickListener2)
+                .setNegativeButton("Return to Edit Movies", dialogClickListener2)
+                .create();
+        dialog.show();
     }
+
+    // Set click listener for alert dialog buttons
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch(which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    // User clicked the Yes button
+                    database = movies.getReadableDatabase();
+                    //database.delete(TABLE_NAME, TITLE + " = ?", new String[]{movieTitle});
+                    deletionDialog();
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    // User clicked the No button
+                    break;
+            }
+        }
+    };
+
+    // Set click listener for alert dialog buttons
+    DialogInterface.OnClickListener dialogClickListener2 = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch(which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    finish();
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    // User clicked the No button
+                    displayMovies();
+                    movieAdapter = new ArrayAdapter<String>(EditActivity.this, R.layout.layout_edit_listview, movieList);
+                    movieListView.setAdapter(movieAdapter);
+                    break;
+            }
+        }
+    };
+
 }
