@@ -10,7 +10,7 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/delete_action_bar"
-        android:icon="@android:drawable/ic_menu_delete"
-        android:title="Delete Movie\"
+        android:icon="@drawable/ic_baseline_delete_24"
+        android:title="Delete Movie"
         app:showAsAction="always" />
 </menu>
